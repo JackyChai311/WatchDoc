@@ -1,3 +1,19 @@
+<p align="center">
+  <img src="docs/LOGO.png" alt="WatchDoc Logo" width="250">
+</p>
+
+<h1 align="center">WatchDoc</h1>
+
+<p align="center">
+  <strong>AI-native code governance gateway</strong>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/license/JackyChai311/WatchDoc?style=flat-square" alt="license">
+  <img src="https://img.shields.io/github/stars/JackyChai311/WatchDoc?style=flat-square" alt="stars">
+</p>
+
+---
 # 🛰️ WATCHDOC(watchdog for code)
 
 > AI-Native Code Governance Protocol System
