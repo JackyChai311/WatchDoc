@@ -1,4 +1,4 @@
-# 🛰️ WATCHDOG
+# 🛰️ WATCHDOC
 
 > AI-Native Code Governance Protocol System
 
@@ -7,7 +7,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![CI Status](https://github.com/JackyChai311/WatchDoc/actions/workflows/ci.yml/badge.svg)](https://github.com/JackyChai311/WatchDoc/actions)
 
-**WATCHDOG** is an AI-native code governance protocol system. It provides "self-protecting" capabilities through the WDP inline protocol, assigning an independent "watchdog" to each module. This prevents AI from "over-smart" refactoring and "amnesiac" modifications after context compression, achieving a paradigm shift from "blind luck" to "precise control" in code changes.
+**WATCHDOC** is an AI-native code governance protocol system. It provides "self-protecting" capabilities through the WDP inline protocol, assigning an independent "watchdog" to each module. This prevents AI from "over-smart" refactoring and "amnesiac" modifications after context compression, achieving a paradigm shift from "blind luck" to "precise control" in code changes.
 
 ---
 
