@@ -1,4 +1,3 @@
-<img src="https://github.com/JackyChai311/WatchDoc/raw/main/WatchDoc.jpg" width="600" alt="WatchDoC Logo">
 # 🛰️ WATCHDOC(watchdog for code)
 
 > AI-Native Code Governance Protocol System
