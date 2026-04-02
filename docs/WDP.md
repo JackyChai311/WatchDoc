@@ -1,4 +1,4 @@
-# WDP Protocol Specification v1.1
+# WDP Protocol Specification v1.2
 
 > Watchdoc Description Protocol
 
