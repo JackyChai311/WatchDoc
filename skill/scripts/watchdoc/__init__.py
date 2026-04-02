@@ -1,4 +1,4 @@
-"""WATCHDOC CLI Module"""
-from .main import main
+"""WATCHDOC Index Module"""
+from .analyzer import ImpactAnalyzer
 
-__all__ = ['main']
+__all__ = ['ImpactAnalyzer']
