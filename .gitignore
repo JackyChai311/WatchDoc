@@ -1,4 +1,4 @@
-# WATCHDOG .gitignore
+# WATCHDOC .gitignore
 # This file tells Git which files not to track
 
 # ===================================
@@ -57,9 +57,11 @@ htmlcov/
 .hypothesis/
 
 # ===================================
-# WATCHDOG Specific
+# WATCHDOC Specific
 # ===================================
-.watchdog/overrides.json
+.watchdoc/overrides.json
+.watchdoc/temporary_grants.yaml
+.watchdoc/current_session.yaml
 *.skill
 *.log
 temp/
