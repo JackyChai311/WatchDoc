@@ -1,6 +1,6 @@
 # WDP Protocol Specification v1.1
 
-> Watchdog Description Protocol
+> Watchdoc Description Protocol
 
 ## Table of Contents
 - [Overview](#overview)
@@ -16,7 +16,7 @@
 
 ## Overview
 
-**WDP (Watchdog Description Protocol) is an inline code protection mechanism that embeds protection rules directly in code comments. It provides "self-protecting" capabilities for AI-native code governance.
+**WDP (Watchdoc Description Protocol) is an inline code protection mechanism that embeds protection rules directly in code comments. It provides "self-protecting" capabilities for AI-native code governance.
 
 ### Design Principles:
 - **Inline by design: Protection rules live with the code
@@ -213,7 +213,7 @@ function formatDate(date) {
 ## File Structure
 
 ```
-.watchdog/
+.watchdoc/
 ├── manifest.md       # Human-readable manifest
 ├── index.json        # Machine-readable index
 └── overrides.json    # Emergency override records
