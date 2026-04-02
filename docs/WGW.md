@@ -1,6 +1,6 @@
-# WGW Protocol Specification v1.1
+# WGW Protocol Specification v1.2
 
-> Watchdog Gateway - Human-in-the-Loop AI Code Governance Protocol
+> Watchdoc Gateway - Human-in-the-Loop AI Code Governance Protocol
 
 ## Table of Contents
 - [Overview](#overview)
@@ -15,7 +15,7 @@
 
 ## Overview
 
-**WGW (Watchdog Gateway) is a human-in-the-loop governance protocol that enables controlled AI-assisted programming while protecting critical code.
+**WGW (Watchdoc Gateway) is a human-in-the-loop governance protocol that enables controlled AI-assisted programming while protecting critical code.
 
 ### Core Principles:
 - **Default Deny**: Code is read-only by default
@@ -34,9 +34,9 @@ User Code → WDP Parser → Manifest Generation → Protection Inventory
 ```
 
 **Steps**:
-1. Run `watchdog init /path/to/project`
+1. Run `watchdoc init /path/to/project`
 2. System scans for `@wd` markers
-3. Generates `.watchdog/manifest.md` and `index.json`
+3. Generates `.watchdoc/manifest.md` and `index.json`
 4. Human reviews protection level settings
 
 ### Phase 2: Impact Analysis
@@ -97,7 +97,7 @@ Modification Complete → Full Verification → Audit Recording → Complete
   - Semantic matching: module ID, path, summary contain keywords
   - Role matching: Config role auto-classified on config changes
   - Direct dependency: explicitly specified by user intent
-- **Treatment**: Requires重点 review, may need high authorization level
+- **Treatment**: Requireskey review, may need high authorization level
 
 ### Category B: Indirect Impact
 - **Definition**: Modules related via call graph
@@ -148,7 +148,7 @@ Modification Complete → Full Verification → Audit Recording → Complete
 
 1. **Create Request**
    ```bash
-   watchdog override --user-id alice --email alice@company.com \
+   watchdoc override --user-id alice --email alice@company.com \
      --scope-type directory --pattern src/payment/ \
      --reason "Emergency payment bug fix" --level dual
    ```
@@ -177,7 +177,7 @@ Modification Complete → Full Verification → Audit Recording → Complete
 Human-readable markdown inventory
 
 ```markdown
-# WATCHDOG Manifest
+# WATCHDOC Manifest
 
 **Project:** my-project
 **Last Sync:** 2024-03-29 17:00:00
