@@ -1,2 +1,0 @@
-# WATCHDOC Dependencies
-pyyaml>=6.0
