@@ -10,7 +10,16 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 
-**WatchDoC** — An AI-native code governance protocol that embeds self-protection directly into your source code.Using lightweight inline markers (`@wd:`), WatchDoc gives every module its own independent "watchdog" with clear guard levels (FREEZE, GUARD, AUDIT, NONE). It transforms chaotic AI-driven refactoring into a **structured, auditable process** with impact analysis, temporary human-authorized access, and automatic safeguards — greatly reducing the risk of over-refactoring, silent logic changes, and context amnesia.
+**WatchDoc** — An AI-native code governance protocol that embeds self-protection directly into your source code. Using lightweight inline markers (`@wd:`), WatchDoc gives every module its own independent "watchdog" with clear guard levels (FREEZE, GUARD, AUDIT, NONE). It transforms chaotic AI-driven refactoring into a **structured, auditable process** with impact analysis, temporary human-authorized access, and automatic safeguards — greatly reducing the risk of over-refactoring, silent logic changes, and context amnesia.
+
+---
+
+## 📖 Examples
+
+See the [examples/](examples/) directory for:
+- Payment processor with WDP markers
+- Attack simulation test
+- Real-world usage patterns
 
 ---
 
@@ -34,6 +43,7 @@ This significantly improves compliance compared to traditional rules files (Curs
 WatchDoc provides **strong procedural enforcement** through structured markers, guard levels, assertions, time-bound grants, and audit logging. However, it is not a hard runtime lock. 
 
 Protection works best when the LLM is instructed to strictly follow the protocol (via the provided skill/system prompt). In long sessions or aggressive refactors, models may still attempt to bypass markers — human review and post-edit verification remain essential parts of the workflow.
+
 ---
 
 ## ✨ Features
@@ -73,6 +83,7 @@ Protection works best when the LLM is instructed to strictly follow the protocol
 | NONE    | Utility / navigation         | No restrictions                               | None                      |
 
 *Note: FREEZE level provides the strongest protection, but still relies on the AI following the protocol and human approval.*
+
 ---
 
 ## 🚀 Quick Start
@@ -143,10 +154,10 @@ watchdoc init /path/to/your/project --auto-freeze
 cat /path/to/your/project/.watchdoc/manifest.md
 
 # 3. Scan for impact before modification
-python -m watchdoc.cli.main scan /path/to/project --intent "Modify payment timeout logic"
+watchdoc scan /path/to/project --intent "Modify payment timeout logic"
 
 # 4. Grant temporary authorization (if FREEZE modules affected)
-python -m watchdoc.cli.main grant /path/to/project \
+watchdoc grant /path/to/project \
   --module-id=payment_setTimeout \
   --level=AUDIT \
   --reason="Modify payment timeout logic"
@@ -154,7 +165,7 @@ python -m watchdoc.cli.main grant /path/to/project \
 # 5. Modify code (with AI assistance)
 
 # 6. Revoke authorization (when topic changes)
-python -m watchdoc.cli.main revoke /path/to/project
+watchdoc revoke /path/to/project
 ```
 
 ---
@@ -168,7 +179,7 @@ python -m watchdoc.cli.main revoke /path/to/project
 │           Phase 1: Initialization (First Time)           │
 └─────────────────────────────────────────────────────────┘
 
-1. Run: python -m watchdoc.cli.main init /path/to/project --auto-freeze
+1. Run: watchdoc init /path/to/project --auto-freeze
 2. All functions automatically marked as FREEZE
 3. Review .watchdoc/manifest.md
 4. Adjust protection levels (FREEZE/GUARD/AUDIT/NONE)
@@ -245,49 +256,49 @@ watchdoc/
 
 ```bash
 # Initialize with auto-freeze (all functions marked as FREEZE)
-python -m watchdoc.cli.main init /path/to/project --auto-freeze
+watchdoc init /path/to/project --auto-freeze
 ```
 
 ### Scanning & Analysis
 
 ```bash
 # Scan for impact analysis
-python -m watchdoc.cli.main scan /path/to/project --intent "Modify payment logic"
+watchdoc scan /path/to/project --intent "Modify payment logic"
 
 # Detect code drift
-python -m watchdoc.cli.main drift /path/to/project
+watchdoc drift /path/to/project
 
 # Reindex project
-python -m watchdoc.cli.main reindex /path/to/project
+watchdoc reindex /path/to/project
 ```
 
 ### Temporary Authorization
 
 ```bash
 # Grant temporary authorization
-python -m watchdoc.cli.main grant /path/to/project \
+watchdoc grant /path/to/project \
   --module-id=payment_setTimeout \
   --level=AUDIT \
   --reason="Modify payment timeout logic"
 
 # Check session status
-python -m watchdoc.cli.main session /path/to/project
+watchdoc session /path/to/project
 
 # Revoke all authorizations
-python -m watchdoc.cli.main revoke /path/to/project
+watchdoc revoke /path/to/project
 ```
 
 ### Emergency Override
 
 ```bash
 # Create override request
-python -m watchdoc.cli.main override \
+watchdoc override \
   --user-id alice --email alice@company.com \
   --scope-type directory --pattern src/payment/ \
   --reason "Emergency payment bug fix" --level dual
 
 # Approve override request
-python -m watchdoc.cli.main approve \
+watchdoc approve \
   --request-id OVR-20240402-0001 \
   --user-id bob --email bob@company.com \
   --decision approve
@@ -373,4 +384,3 @@ If you discover a security vulnerability, please email jacky.chai0311@outlook.co
 ---
 
 *WATCHDOC - From "Blind Luck" to "Precision Control" in AI-Assisted Programming*
-
