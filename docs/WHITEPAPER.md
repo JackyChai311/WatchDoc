@@ -1,8 +1,8 @@
-# WATCHDOG Whitepaper
+# WATCHDOC Whitepaper
 
 ## AI-Native Code Governance Protocol System
 
-**Version 1.1.0**  
+**Version 1.2.0**  
 **March 2024**  
 **Matrix Agent Team**
 
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-**WATCHDOG** is an AI-native code governance protocol system designed to address the unique challenges of AI-assisted programming. Through the innovative WDP inline protocol and WGW human-in-the-loop workflow, WATCHDOG provides "self-protecting" code that maintains its protection rules even under context compression.
+**WATCHDOC** is an AI-native code governance protocol system designed to address the unique challenges of AI-assisted programming. Through the innovative WDP inline protocol and WGW human-in-the-loop workflow, WATCHDOC provides "self-protecting" code that maintains its protection rules even under context compression.
 
 ---
 
@@ -83,7 +83,7 @@ Context is finite, memory is unreliable—but protection needs are eternal.
 
 ### Problem 3: "Blind Luck" Code Changes
 
-Without WATCHDOG:
+Without WATCHDOC:
 ```
 🎲 You: "AI, help me modify this code"
 🎲 AI: "Okay, I randomly changed some things"
@@ -95,7 +95,7 @@ Without WATCHDOG:
 
 ## 3. Our Solution
 
-### Core Insight: "Give Each Module Its Own Watchdog"
+### Core Insight: "Give Each Module Its Own Watchdoc"
 
 Instead of external documentation or tools, embed protection rules directly in the code:
 
@@ -114,7 +114,7 @@ function processPayment(amount, cardInfo) {
 ### Key Innovations
 
 1. **Inline Protection Protocol (WDP)**: Protection rules live with the code
-2. **Independent Watchdogs**: Module-level granularity
+2. **Independent Watchdocs**: Module-level granularity
 3. **Context-Robust Design**: Works even with context compression
 4. **Human-in-the-Loop (WGW)**: Humans maintain final say
 5. **Precise Control**: From "blind luck" to "precision control"
@@ -123,7 +123,7 @@ function processPayment(amount, cardInfo) {
 
 ## 4. WDP Protocol
 
-### Watchdog Description Protocol
+### Watchdoc Description Protocol
 
 WDP is an inline protocol that embeds protection rules directly in code comments.
 
@@ -160,7 +160,7 @@ Three levels for different token budgets:
 
 ## 5. WGW Workflow
 
-### Watchdog Gateway: Human-in-the-Loop Governance
+### Watchdoc Gateway: Human-in-the-Loop Governance
 
 #### Standard 5-Phase Workflow
 
@@ -207,7 +207,7 @@ Three-level approval:
 ### System Overview
 
 ```
-watchdog/
+watchdoc/
 ├── wdp/          # Protocol Layer
 │   ├── parser.py      # Marker parser
 │   └── verifier.py    # Code verifier
@@ -235,7 +235,7 @@ watchdog/
 
 **Challenge**: Core payment modules absolutely cannot break
 
-**WATCHDOG Solution**:
+**WATCHDOC Solution**:
 - FREEZE on all payment processing logic
 - GUARD on configuration files
 - AUDIT on feature modules
@@ -247,7 +247,7 @@ watchdog/
 
 **Challenge**: AI writes code fast but sometimes "too smart"
 
-**WATCHDOG Solution**:
+**WATCHDOC Solution**:
 - Incremental `@wd` marker adoption
 - A/B/C analysis before changes
 - Human authorization on critical modules
@@ -258,7 +258,7 @@ watchdog/
 
 **Challenge**: Need audit trail and governance
 
-**WATCHDOG Solution**:
+**WATCHDOC Solution**:
 - Complete audit logging
 - Emergency override with approval
 - Compliance-ready manifests
@@ -269,9 +269,9 @@ watchdog/
 
 ## 8. Comparison
 
-### Traditional vs WATCHDOG
+### Traditional vs WATCHDOC
 
-| Aspect | Traditional | WATCHDOG |
+| Aspect | Traditional | WATCHDOC |
 |--------|-------------|----------|
 | **Protection Location** | External docs/tools | Inline with code |
 | **Context Robustness** | Poor (needs full context) | Excellent (self-contained) |
@@ -280,13 +280,13 @@ watchdog/
 | **Governance** | After-the-fact review | Human-in-the-loop |
 | **Modification Control** | "Blind luck" | "Precision control" |
 
-### Before WATCHDOG
+### Before WATCHDOC
 
 ```
 AI writes code → Human reviews → Sometimes okay, sometimes breaks → Production issues → Revert → Repeat
 ```
 
-### After WATCHDOG
+### After WATCHDOC
 
 ```
 Initialize → Analyze → Authorize → AI modifies (within bounds) → Verify → Safe deployment
@@ -305,7 +305,7 @@ Initialize → Analyze → Authorize → AI modifies (within bounds) → Verify 
 
 ### Medium-Term (6-18 months)
 
-- WATCHDOG Cloud SaaS
+- WATCHDOC Cloud SaaS
 - Multi-tenant architecture
 - Team collaboration features
 - ML-driven impact analysis
@@ -329,7 +329,7 @@ From:
 - ❌ Context-dependent protection
 
 To:
-- ✅ "Each module has its own watchdog"
+- ✅ "Each module has its own watchdoc"
 - ✅ "Precision control" over changes
 - ✅ Context-robust inline protection
 
@@ -337,7 +337,7 @@ To:
 
 AI-assisted programming is the future. But without proper governance, it's a future of unpredictable regressions and production outages.
 
-WATCHDOG provides the infrastructure for safe, controlled, and efficient AI-native development.
+WATCHDOC provides the infrastructure for safe, controlled, and efficient AI-native development.
 
 ---
 
@@ -357,4 +357,4 @@ WATCHDOG provides the infrastructure for safe, controlled, and efficient AI-nati
 
 ---
 
-*WATCHDOG Whitepaper v1.1.0
+*WATCHDOC Whitepaper v1.1.0
