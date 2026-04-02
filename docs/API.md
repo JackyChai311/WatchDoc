@@ -721,4 +721,4 @@ class ModificationSession:
 
 ---
 
-*WATCHDOC API Reference v1.1.0
+*WATCHDOC API Reference v1.2.0
