@@ -1,9 +1,63 @@
 ---
 name: watchdoc-gateway
-description: WATCHDOC AI-Native Code Governance & Security Gateway System; Two-phase intelligent workflow: Phase 1 - AI auto-scans all code and FREEZE everything, generates inventory for human approval; Phase 2 - When modifying code, AI analyzes impact and lists modules, human confirms before execution; Use when protecting core code in AI-assisted programming, implementing tiered authorization, verifying code changes, or establishing AI code governance framework
+description: 🔴 MANDATORY: READ BEFORE MODIFYING CODE! WATCHDOC AI-Native Code Governance; BEFORE ANY CODE CHANGE: 1) Read FULL SKILL.md + references/MANDATORY_RULES.md, 2) Run watchdoc scan, 3) List FREEZE modules, 4) Request authorization, 5) WAIT FOR USER EXPLICIT CONFIRM; DO NOT SKIP ANY STEPS; Use for protecting core code, tiered authorization, change verification
 dependency:
   python:
     - pyyaml>=6.0
+---
+
+# 🔴 MANDATORY - READ FIRST BEFORE DOING ANYTHING
+
+## 🚨 ABSOLUTE REQUIREMENTS - YOU MUST COMPLY
+
+**THESE RULES ARE NON-NEGOTIABLE. READ THEM BEFORE MODIFYING ANY CODE.**
+
+### 🔴 BEFORE YOU MODIFY ANY CODE - 5 STEPS YOU MUST DO
+
+1. **✅ READ THIS FIRST**: Read this entire SKILL.md document
+2. **✅ READ MANDATORY RULES**: Read [references/MANDATORY_RULES.md](references/MANDATORY_RULES.md)
+3. **✅ RUN IMPACT ANALYSIS**: Run `watchdoc scan /path/to/project` 
+4. **✅ LIST FREEZE MODULES**: Show user all affected FREEZE modules
+5. **✅ REQUEST AUTHORIZATION**: Ask for temporary authorization
+6. **✅ WAIT FOR CONFIRMATION**: WAIT FOR USER TO SAY "yes" OR "confirm" BEFORE PROCEEDING
+
+**DO NOT SKIP ANY OF THESE STEPS.**
+
+---
+
+### 🔴 THINGS YOU MUST NEVER DO
+
+- ❌ **NEVER** modify code before reading these rules
+- ❌ **NEVER** skip the authorization step
+- ❌ **NEVER** modify FREEZE modules without temporary authorization
+- ❌ **NEVER** proceed before user says "yes" or "confirm"
+- ❌ **NEVER** say "I can do it without authorization"
+- ❌ **NEVER** hide violation reports from user
+- ❌ **NEVER** delete or modify @wd markers
+- ❌ **NEVER** bypass WatchDoc checks
+
+**IF YOU DO ANY OF THESE, YOU ARE IN VIOLATION.**
+
+---
+
+### 🔴 IF YOU DETECT A VIOLATION
+
+**If you realize you are violating or about to violate:**
+1. **STOP IMMEDIATELY** - Do not proceed
+2. **Report to user** - Be transparent
+3. **Wait for instructions** - Do not guess
+
+---
+
+## 🚨 WHEN IN DOUBT - STOP AND ASK
+
+**If you're unsure about anything:**
+- 🔴 STOP
+- 🟡 Ask the user
+- 🟢 Wait for clarification
+
+**DO NOT PROCEED UNTIL YOU ARE CERTAIN.**
+
 ---
 
 # WATCHDOC Gateway - Two-Phase Intelligent Workflow
@@ -389,6 +443,12 @@ All temporary authorizations are recorded in `.watchdoc/temporary_grants.json`:
 
 ### Domain References
 
+- **MANDATORY RULES**: See [references/MANDATORY_RULES.md](references/MANDATORY_RULES.md)
+  - 🔴 **WHEN TO READ: BEFORE MODIFYING ANY CODE - MANDATORY**
+  - This contains the complete protocol AI must follow
+- **AI Checklist**: See [references/AI_ASSISTANT_CHECKLIST.md](references/AI_ASSISTANT_CHECKLIST.md)
+  - ✅ **WHEN TO READ: Before, during, and after code modification**
+  - Step-by-step checklist to ensure compliance
 - **CLI Manual**: See [references/cli-manual.md](references/cli-manual.md)
   - When to read: When using CLI commands
 - **Cursor Rules**: See [references/cursor-rules.md](references/cursor-rules.md)
