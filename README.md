@@ -45,7 +45,22 @@
 
 ## 🚀 Quick Start
 
-### Option A: Use as IDE Skill (Recommended)
+### Option A: Install via pip (Recommended)
+
+```bash
+# Install from PyPI (coming soon)
+# pip install watchdoc
+
+# Install from source
+git clone https://github.com/JackyChai311/WatchDoc.git
+cd WatchDoc
+pip install -e .
+
+# Initialize your project
+watchdoc init /path/to/your/project --auto-freeze
+```
+
+### Option B: Use as IDE Skill
 
 ```bash
 # 1. Clone or download
@@ -63,18 +78,18 @@ The AI will automatically:
 - Initialize your project with auto-freeze protection
 - Generate the protection manifest
 
-### Option B: Command Line Usage
+### Option C: Command Line Usage (from source)
 
 ```bash
 # Clone repository
 git clone https://github.com/JackyChai311/WatchDoc.git
-cd WatchDoc/scripts
+cd WatchDoc
 
-# Install dependency
-pip install pyyaml
+# Install in development mode
+pip install -e .
 
 # Initialize project
-python -m watchdoc.cli.main init /path/to/your/project --auto-freeze
+watchdoc init /path/to/your/project --auto-freeze
 ```
 
 **Output:**
@@ -269,8 +284,30 @@ We welcome contributions from the community!
 git clone https://github.com/JackyChai311/WatchDoc.git
 cd WatchDoc
 
-# Install dependencies
-pip install pyyaml
+# Install in development mode with all dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Run tests with coverage
+pytest --cov=watchdoc
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_parser.py
+
+# Run with verbose output
+pytest -v
+
+# Run with coverage report
+pytest --cov=watchdoc --cov-report=html
 ```
 
 ### How to Contribute
@@ -304,4 +341,4 @@ If you discover a security vulnerability, please email jacky.chai0311@outlook.co
 ---
 
 *WATCHDOC - From "Blind Luck" to "Precision Control" in AI-Assisted Programming*
-c/discussions)
+
