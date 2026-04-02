@@ -1,96 +1,37 @@
-# WATCHDOC .gitignore
-# This file tells Git which files not to track
-
-# ===================================
-# Python
-# ===================================
+# WatchDoc specific
+.watchdoc/
+*.skill
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
+*.pyc
+*.pyo
+*.pyd
+
+# Python
 *.egg-info/
-.installed.cfg
+dist/
+build/
+.eggs/
 *.egg
-MANIFEST
 
-# ===================================
-# Virtual Environment
-# ===================================
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
 
-# ===================================
-# IDE and Editors
-# ===================================
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# OS
 .DS_Store
-
-# ===================================
-# Testing and Coverage
-# ===================================
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.hypothesis/
-
-# ===================================
-# WATCHDOC Specific
-# ===================================
-.watchdoc/overrides.json
-.watchdoc/temporary_grants.yaml
-.watchdoc/current_session.yaml
-*.skill
-*.log
-temp/
-tmp/
-
-# ===================================
-# Node.js (if any JS/TS code)
-# ===================================
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# ===================================
-# OS Files
-# ===================================
 Thumbs.db
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 
-# ===================================
-# Local Config (contains secrets!)
-# ===================================
-*.local
-*.env.local
-*.env.*.local
-config.local.json
-secrets.json
+# Temporary files
+tmp/
+temp/
+*.log
