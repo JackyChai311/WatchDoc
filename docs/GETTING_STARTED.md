@@ -1,11 +1,57 @@
-# Getting Started with WATCHDOG
+# Getting Started with WATCHDOC
 
 ## Table of Contents
+- [Download & Install as IDE Skill](#download--install-as-ide-skill)
 - [Installation](#installation)
 - [Quick Tutorial](#quick-tutorial)
-- [Adding Your First @wd Marker](#adding-your-first-wd-marker)
+- [Two-Phase Workflow](#two-phase-workflow)
+- [Temporary Authorization Mechanism](#temporary-authorization-mechanism)
 - [Common Workflows](#common-workflows)
 - [Next Steps](#next-steps)
+
+---
+
+## Download & Install as IDE Skill
+
+### Step 1: Download WATCHDOC
+
+Download from GitHub:
+
+```bash
+git clone https://github.com/JackyChai311/WatchDoc.git
+cd WatchDoc
+```
+
+### Step 2: Add to Your IDE
+
+1. Open your AI-powered IDE (e.g., Cursor, Windsurf, or any IDE with AI assistant support)
+2. Navigate to **Skills** or **Plugins** settings
+3. Add the `watchdoc-publish/skill/` directory as a Skill
+
+### Step 3: Deploy WATCHDOC
+
+**Once the Skill is added, simply tell your AI assistant:**
+
+```
+Deploy WatchDoc
+```
+
+The AI will automatically:
+1. Load the WATCHDOC Skill
+2. Initialize your project with auto-freeze
+3. Generate the protection manifest and index
+4. Display the protection summary
+
+### Step 4: Verify Installation
+
+Check that the following files were created:
+
+```bash
+ls /path/to/your/project/.watchdoc/
+# Should show: manifest.md  index.json
+```
+
+You're now ready to use WATCHDOC for AI-safe code governance!
 
 ---
 
@@ -15,88 +61,251 @@
 
 ```bash
 git clone https://github.com/JackyChai311/WatchDoc.git
-cd watchdog
-pip install -e .
+cd WatchDoc
 ```
 
-### Verifying Installation
+### Requirements
+
+- Python 3.8+
+- pyyaml>=6.0 (only dependency)
 
 ```bash
-watchdog --version
-# WATCHDOG 1.1.0
+pip install pyyaml
 ```
 
 ---
 
 ## Quick Tutorial
 
-### Step 1: Initialize Your Project
+### Step 1: Initialize Your Project with Auto-Freeze
 
 ```bash
-cd /path/to/your/project
-watchdog init .
+cd WatchDoc/scripts
+
+# Initialize your project (auto-scan all code and mark as FREEZE)
+python -m watchdoc.cli.main init /path/to/your/project --auto-freeze
+```
+
+**Output Example:**
+```
+✅ Auto-marking complete!
+   - Files scanned: 45
+   - Functions marked: 237
+
+📊 Language breakdown:
+   - python: 89 functions
+   - javascript: 67 functions
+   - go: 45 functions
+
+✅ Initialization complete: 237 modules indexed
 ```
 
 This will:
-- Scan your code for `@wd` markers
-- Generate `.watchdog/manifest.md` (human-readable)
-- Generate `.watchdog/index.json` (machine-readable)
+- Scan all code files in your project
+- **Automatically mark every function as FREEZE**
+- Generate `.watchdoc/manifest.md` (human-readable protection inventory)
+- Generate `.watchdoc/index.json` (machine-readable index)
 
-### Step 2: Add Your First @wd Marker
+### Step 2: Review and Adjust Protection Levels
 
-Add a protection marker to your code:
+```bash
+# View the generated protection inventory
+cat /path/to/your/project/.watchdoc/manifest.md
+```
 
-```javascript
-// @wd: payment-core | Role: Core | Guard: FREEZE | Summary: "Core payment logic - DO NOT MODIFY"
-function processPayment(amount, cardInfo) {
-    // Core payment logic here
+**Example Output:**
+```markdown
+# WATCHDOC Manifest
+
+**Project:** my-project
+**Last Sync:** 2024-04-02 15:30:00
+**Total Modules:** 237
+
+## Module Registry
+
+| Module ID | File Location | Lines | Role | Guard | Description | Hash |
+|-----------|---------------|-------|------|-------|-------------|------|
+| `payment_processPayment` | `payment.py` | `10-50` | Core | FREEZE | Core payment logic | `abc123` |
+| `auth_verifyUser` | `auth.py` | `20-45` | Core | FREEZE | User authentication | `def456` |
+| `utils_formatData` | `utils.py` | `5-20` | Util | FREEZE | Data formatting | `ghi789` |
+
+## Statistics
+
+- **FREEZE:** 237 modules
+- **GUARD:** 0 modules
+- **AUDIT:** 0 modules
+- **NONE:** 0 modules
+```
+
+Manually edit `.watchdoc/manifest.md` or `.watchdoc/index.json` to adjust protection levels:
+- **Keep FREEZE**: Core business logic, critical functions
+- **Change to GUARD**: Important but modifiable with constraints
+- **Change to AUDIT**: Regular features, track changes
+- **Change to NONE**: Utility functions, free to modify
+
+### Step 3: Request Modification (Phase 2)
+
+When you need to modify code, analyze the impact first:
+
+```bash
+python -m watchdoc.cli.main scan /path/to/project --intent "Modify payment timeout logic"
+```
+
+**Output Example:**
+```json
+{
+  "direct_impact": [
+    {
+      "module_id": "payment_setTimeout",
+      "file": "payment.py",
+      "guard": "FREEZE",
+      "summary": "Set payment timeout"
+    }
+  ],
+  "related_modules": [
+    {
+      "module_id": "order_processOrder",
+      "reason": "Calls payment_setTimeout"
+    }
+  ]
 }
-// @wd: payment-core | END
 ```
 
-### Step 3: Re-index
+### Step 4: Grant Temporary Authorization
+
+If you need to modify FREEZE modules:
 
 ```bash
-watchdog init .
+python -m watchdoc.cli.main grant /path/to/project \
+  --module-id=payment_setTimeout \
+  --level=AUDIT \
+  --reason="Modify payment timeout logic"
 ```
 
-### Step 4: Try a Scan
+**Output:**
+```
+✅ Temporary authorization granted
+   Module: payment_setTimeout
+   Original level: FREEZE
+   Temporary level: AUDIT
+   Expires at: 2024-04-02T16:00:00
+```
+
+### Step 5: Modify Code
+
+After authorization, you can modify the code within the authorized scope.
+
+### Step 6: Revoke Authorization (When Topic Changes)
 
 ```bash
-watchdog scan . --intent "Modify payment timeout logic"
+# Revoke all temporary authorizations
+python -m watchdoc.cli.main revoke /path/to/project
 ```
 
 ---
 
-## Adding Your First @wd Marker
+## Two-Phase Workflow
 
-### Basic Marker
+### Phase 1: Initialization & Authorization (First Time)
 
-```python
-# @wd: my-module | Role: Core | Guard: GUARD | Summary: "My important module"
-def my_function():
-    pass
-# @wd: my-module | END
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Phase 1: Setup                        │
+└─────────────────────────────────────────────────────────┘
+
+1. Initialize Project
+   └─> Run: watchdoc init --auto-freeze
+   └─> All functions marked as FREEZE
+   └─> Generate protection inventory
+
+2. Review Inventory
+   └─> Check .watchdoc/manifest.md
+   └─> Identify core vs. non-critical modules
+
+3. Adjust Protection Levels
+   └─> Keep FREEZE: Core business logic
+   └─> Change to GUARD/AUDIT/NONE: Non-critical modules
+   └─> Save updated manifest
 ```
 
-### With Dependencies
+### Phase 2: Code Modification (Daily Use)
 
-```javascript
-// @wd: auth-module | Role: Core | Guard: FREEZE | Depends: crypto-util, db-connector
-function authenticateUser(username, password) {
-}
-// @wd: auth-module | END
+```
+┌─────────────────────────────────────────────────────────┐
+│                 Phase 2: Modification                    │
+└─────────────────────────────────────────────────────────┘
+
+1. User Request
+   └─> Describe modification intent
+
+2. Impact Analysis
+   └─> Run: watchdoc scan --intent "..."
+   └─> List directly affected modules (Category A)
+   └─> List indirectly affected modules (Category B)
+
+3. Temporary Authorization (if FREEZE modules affected)
+   └─> Run: watchdoc grant --module-id=... --level=AUDIT
+   └─> Authorization valid for 30 minutes
+   └─> Subject to topic switch detection
+
+4. Code Modification
+   └─> Modify code within authorized scope
+   └─> AI or human executes changes
+
+5. Authorization Reclamation
+   └─> Run: watchdoc revoke (when topic changes)
+   └─> Or automatic reclamation after 30 minutes
 ```
 
-### With Assertions
+---
 
-```javascript
-// @wd: config-module | Role: Config | Guard: GUARD
-// @wd-assert: Signature_Lock
-const CONFIG = {
-    debug: false
-};
-// @wd: config-module | END
+## Temporary Authorization Mechanism
+
+### Authorization Levels
+
+| Level | Meaning | Use Case | Validity |
+|-------|---------|----------|----------|
+| **AUDIT** | Allow modification, record audit log | Recommended for most modifications | 30 minutes |
+| **GUARD** | Allow modification, warn before modification | Important functions, extra caution | 30 minutes |
+| **NONE** | Allow free modification | Low risk functions | 30 minutes |
+
+### Authorization Lifecycle
+
+```
+1. Request Phase
+   └─> User proposes modification request
+   └─> AI analyzes impact
+   └─> Lists FREEZE functions needing modification
+
+2. Application Phase
+   └─> AI generates temporary authorization request
+   └─> User reviews and selects authorization level
+
+3. Grant Phase
+   └─> User confirms authorization
+   └─> Run: watchdoc grant
+   └─> 30-minute countdown starts
+
+4. Execution Phase
+   └─> AI modifies code within authorized scope
+   └─> All changes recorded to audit log
+
+5. Reclamation Phase
+   └─> Automatic: 30-minute timeout
+   └─> Manual: watchdoc revoke
+   └─> Topic switch: Automatic detection
+```
+
+### Topic Switch Detection
+
+If user switches to a different modification topic, authorizations are automatically reclaimed:
+
+```bash
+# Current topic: "Modify payment timeout"
+watchdoc grant --module-id=payment_setTimeout --level=AUDIT --reason="Modify payment timeout"
+
+# User switches topic: "Add user profile feature"
+# Previous authorization is automatically reclaimed
 ```
 
 ---
@@ -105,60 +314,75 @@ const CONFIG = {
 
 ### Workflow 1: Standard AI-Assisted Change
 
-```python
-import watchdog
+```bash
+# 1. Initialize (first time only)
+python -m watchdoc.cli.main init /path/to/project --auto-freeze
 
-# 1. Initialize
-watchdog.init("/path/to/project")
+# 2. Scan for impact
+python -m watchdoc.cli.main scan /path/to/project --intent "Modify payment timeout"
 
-# 2. Create session
-session = watchdog.create_session(
-    intent="Add new feature",
-    user_id="you",
-    project_path="/path/to/project"
-)
+# 3. Grant authorization (if FREEZE modules affected)
+python -m watchdoc.cli.main grant /path/to/project \
+  --module-id=payment_setTimeout \
+  --level=AUDIT \
+  --reason="Modify payment timeout logic"
 
-# 3. Analyze impact
-impact = watchdog.analyze(session.session_id, "/path/to/project")
-print(f"Category A: {len(impact['category_a'])} modules")
+# 4. Check session status
+python -m watchdoc.cli.main session /path/to/project
 
-# 4. Authorize
-for module in impact['category_a']:
-    if module['guard'] == 'FREEZE':
-        watchdog.authorize(session.session_id, module['module_id'], 1, "/path/to/project")
-    else:
-        watchdog.authorize(session.session_id, module['module_id'], 3, "/path/to/project")
-
-# 5. Make changes (with AI)
+# 5. Modify code (with AI assistance)
 # ... your AI-assisted development ...
 
-# 6. Verify
-result = watchdog.verify(session.session_id, "modified_file.py", "/path/to/project")
-if result.ok:
-    print("✅ Verification passed!")
-else:
-    print("❌ Violations:", result.violations)
+# 6. Revoke authorization (when topic changes)
+python -m watchdoc.cli.main revoke /path/to/project
 ```
 
 ### Workflow 2: Emergency Override
 
+For critical production issues:
+
 ```bash
 # 1. Create override request
-watchdog override --user-id alice --email alice@company.com \
-  --scope-type directory --pattern src/payment/ \
-  --reason "Emergency payment bug fix" --level dual
+python -m watchdoc.cli.main override \
+  --user-id alice \
+  --email alice@company.com \
+  --scope-type directory \
+  --pattern src/payment/ \
+  --reason "Emergency payment bug fix" \
+  --level dual
 
-# 2. Get request ID: OVR-20240329-0001
+# 2. Get request ID: OVR-20240402-0001
 
-# 3. Approve (as bob)
-watchdog approve --request-id OVR-20240329-0001 \
-  --user-id bob --email bob@company.com \
+# 3. Approve (requires 2 different approvers for dual level)
+python -m watchdoc.cli.main approve \
+  --request-id OVR-20240402-0001 \
+  --user-id bob \
+  --email bob@company.com \
   --decision approve
 
-# 4. Make your emergency changes
+# 4. Make emergency changes
+```
 
-# 5. Verify
-watchdog verify /path/to/project modified_file.py
+### Workflow 3: Check for Code Drift
+
+Detect if code has changed without updating the index:
+
+```bash
+python -m watchdoc.cli.main drift /path/to/project
+```
+
+**Output:**
+```
+⚠️ Drift detected!
+
+New modules: 1
+  + newModule_newFunction
+
+Modified content: 2
+  * payment_processPayment
+  * auth_verifyUser
+
+Run: watchdoc reindex to update the index
 ```
 
 ---
@@ -189,6 +413,35 @@ watchdog verify /path/to/project modified_file.py
 
 ---
 
+## Platform Adaptations
+
+WATCHDOC supports multiple platforms:
+
+### Pure CLI
+See [cli-manual.md](../skill/references/cli-manual.md) for details.
+
+### Cursor IDE
+See [cursor-rules.md](../skill/references/cursor-rules.md) for Cursor-specific setup.
+
+### Continue.dev
+See [continue-dev.md](../skill/references/continue-dev.md) for Continue.dev integration.
+
+---
+
+## Generated Files
+
+```
+your-project/
+├── .watchdoc/
+│   ├── manifest.md            # Protection inventory (human-readable)
+│   ├── index.json             # Index file (machine-readable)
+│   ├── temporary_grants.yaml  # Temporary authorization records
+│   └── current_session.yaml   # Current session info
+└── your-code-files.py         # Code files (containing @wd markers)
+```
+
+---
+
 ## Next Steps
 
 1. **Read the Protocol Docs**
@@ -196,34 +449,17 @@ watchdog verify /path/to/project modified_file.py
    - [WGW Protocol](WGW.md) - Governance workflow
    - [API Reference](API.md) - Complete API docs
 
-2. **Add @wd Markers**
-   - Start with your most critical modules
-   - Gradually add to more modules
-   - Experiment with different guard levels
+2. **Initialize Your Project**
+   - Run `watchdoc init --auto-freeze`
+   - Review the protection inventory
+   - Adjust protection levels
 
-3. **Join the Community**
-   - GitHub Discussions
-   - Discord/Slack server
-   - Share your experiences
-
-4. **Contribute**
-   - Report issues
-   - Suggest features
-   - Submit PRs
+3. **Start Using with AI**
+   - Request modifications through AI
+   - Let AI analyze impact
+   - Grant temporary authorizations when needed
+   - Verify all changes
 
 ---
 
-## Troubleshooting
-
-### Q: The `@wd` markers aren't being detected?
-A: Make sure the syntax is correct: `// @wd: module-id | Role: X | Guard: Y`
-
-### Q: Verification keeps failing?
-A: Check that you're authorizing the correct modules with the right scores
-
-### Q: How do I temporarily bypass protections?
-A: Use the emergency override feature with proper approval
-
----
-
-*Getting Started with WATCHDOG v1.1.0
+*WATCHDOC Getting Started Guide v1.1.0
