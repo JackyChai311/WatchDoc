@@ -10,8 +10,30 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 
-**WATCHDOC** is an AI-native code governance protocol system. It provides "self-protecting" capabilities through the WDP inline protocol, assigning an independent "watchdoc" to each module. This prevents AI from "over-smart" refactoring and "amnesiac" modifications after context compression, achieving a paradigm shift from "blind luck" to "precise control" in code changes.
+**WatchDoC** — An AI-native code governance protocol that embeds self-protection directly into your source code.Using lightweight inline markers (`@wd:`), WatchDoc gives every module its own independent "watchdog" with clear guard levels (FREEZE, GUARD, AUDIT, NONE). It transforms chaotic AI-driven refactoring into a **structured, auditable process** with impact analysis, temporary human-authorized access, and automatic safeguards — greatly reducing the risk of over-refactoring, silent logic changes, and context amnesia.
 
+---
+
+### Protection Model
+
+WatchDoc uses a **hybrid approach**:
+
+- **Decentralized & Embedded (WDP)**: Protection rules live directly inside your code as simple comment markers. These rules travel with the codebase — even when forked or shared across teams.
+- **Centralized Governance (WGW)**: Temporary authorizations, impact analysis, audit trails, and emergency overrides are managed through the WatchDoc CLI and manifest.
+
+**Key Strength**  
+WatchDoc turns passive guidance ("please don't change this") into an **active protocol** that the AI is expected to follow:
+- Detect `@wd:` markers
+- Perform impact analysis before editing
+- Request temporary authorization for protected modules
+- Wait for explicit human confirmation
+
+This significantly improves compliance compared to traditional rules files (Cursor Rules, CLAUDE.md, etc.).
+
+**Important Note on Enforcement**  
+WatchDoc provides **strong procedural enforcement** through structured markers, guard levels, assertions, time-bound grants, and audit logging. However, it is not a hard runtime lock. 
+
+Protection works best when the LLM is instructed to strictly follow the protocol (via the provided skill/system prompt). In long sessions or aggressive refactors, models may still attempt to bypass markers — human review and post-edit verification remain essential parts of the workflow.
 ---
 
 ## ✨ Features
@@ -41,6 +63,16 @@
 - **Time-bound access** - Configurable duration (default 24 hours)
 - **Usage limits** - Prevent abuse of emergency privileges
 
+**Guard Levels**
+
+| Level   | Description                  | Modification Allowed                          | Protection Style          |
+|---------|------------------------------|-----------------------------------------------|---------------------------|
+| FREEZE  | Core / critical logic        | Requires temporary authorization              | Strong (preventive)       |
+| GUARD   | Important logic              | Restricted + must satisfy assertions          | Medium                    |
+| AUDIT   | Normal logic                 | Allowed with audit note                       | Light                     |
+| NONE    | Utility / navigation         | No restrictions                               | None                      |
+
+*Note: FREEZE level provides the strongest protection, but still relies on the AI following the protocol and human approval.*
 ---
 
 ## 🚀 Quick Start
