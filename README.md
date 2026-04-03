@@ -44,6 +44,16 @@ WatchDoc provides **strong procedural enforcement** through structured markers, 
 
 Protection works best when the LLM is instructed to strictly follow the protocol (via the provided skill/system prompt). In long sessions or aggressive refactors, models may still attempt to bypass markers — human review and post-edit verification remain essential parts of the workflow.
 
+**🔒 Post-Edit Verification (New in v1.1)**  
+Even if AI ignores the protocol, WatchDoc now provides a **safety net** through Git pre-commit hooks:
+
+- **Automatic verification** on every `git commit`
+- **AST-based detection** of unauthorized modifications
+- **Three-tier enforcement**: FREEZE (block), GUARD (validate), AUDIT (warn)
+- **Bypass-resistant** - Protection works even without AI cooperation
+
+See [Post-Edit Verification](#-post-edit-verification) section below.
+
 ---
 
 ## ✨ Features
@@ -72,6 +82,12 @@ Protection works best when the LLM is instructed to strictly follow the protocol
 - **Three-level approval** - Single, Dual, Admin
 - **Time-bound access** - Configurable duration (default 24 hours)
 - **Usage limits** - Prevent abuse of emergency privileges
+
+### 🔒 Post-Edit Verification (New in v1.1)
+- **Git pre-commit hooks** - Automatic verification on every commit
+- **AST-based detection** - Detect unauthorized code modifications
+- **Three-tier enforcement** - FREEZE (block), GUARD (validate), AUDIT (warn)
+- **Manual verification** - Run `watchdoc verify` anytime
 
 **Guard Levels**
 
@@ -242,10 +258,12 @@ watchdoc/
 │   ├── authorization.py # Authorization system
 │   ├── temporary_grant.py # Temporary authorization (30-min)
 │   └── override.py     # Emergency override
+├── hooks/        # Post-Edit Verification (NEW in v1.1)
+│   └── pre_commit.py   # Git pre-commit hook verifier
 ├── index/        # Impact Analysis
 │   └── analyzer.py     # A/B/C classification
 └── cli/          # Command-line interface
-    └── main.py
+    └── main.py        # CLI entry point (includes 'verify' command)
 ```
 
 ---
@@ -304,6 +322,70 @@ watchdoc approve \
   --decision approve
 ```
 
+### Post-Edit Verification
+
+```bash
+# Manual verification
+watchdoc verify /path/to/project
+
+# Verify specific file
+watchdoc verify /path/to/project --file src/payment.py
+
+# Verbose output
+watchdoc verify /path/to/project --verbose
+```
+
+---
+
+## 🔒 Post-Edit Verification
+
+Even if AI ignores the protocol, WatchDoc provides a **safety net** through Git pre-commit hooks.
+
+### Setup (One-time)
+
+```bash
+# Copy pre-commit hook to your project
+cp /path/to/WatchDoc/scripts/hooks/pre-commit .git/hooks/
+chmod +x .git/hooks/pre-commit
+
+# Now every commit will be verified!
+```
+
+### What It Checks
+
+| Check | Description | Action |
+|-------|-------------|--------|
+| **FREEZE Modules** | Detects unauthorized modifications | ❌ **Block commit** |
+| **GUARD Assertions** | Validates signature locks, complexity limits | ⚠️ **Warn but allow** |
+| **AUDIT Notes** | Checks if modification has audit note | ℹ️ **Warn only** |
+
+### Example Output
+
+```
+🔍 Running WatchDoc pre-commit verification...
+
+❌ WDP VIOLATIONS DETECTED:
+   🔒 FREEZE module 'payment_processPayment' was modified without authorization
+
+🚫 Commit blocked due to WDP violations.
+   Grant temporary authorization or revert changes.
+```
+
+### How It Works
+
+1. **AST-based Detection** - Extracts function definitions and calculates content hashes
+2. **Hash Comparison** - Compares current code against protected manifest
+3. **Violation Detection** - Identifies unauthorized modifications to FREEZE/GUARD modules
+4. **Automatic Blocking** - Prevents commits that violate WDP rules
+
+### Bypass Scenarios
+
+The pre-commit hook can be bypassed if:
+- User has active temporary authorization (via `watchdoc grant`)
+- User uses `git commit --no-verify` (not recommended)
+
+See [Post-Edit Verification Docs](docs/POST_EDIT_VERIFICATION.md) for detailed implementation.
+
 ---
 
 ## 📚 Documentation
@@ -311,7 +393,9 @@ watchdoc approve \
 - 📖 [Whitepaper](docs/WHITEPAPER.md) - Complete technical whitepaper
 - 📖 [WDP Protocol Specification](docs/WDP.md) - Marker protocol reference
 - 📖 [WGW Governance Protocol](docs/WGW.md) - Governance workflow
+- 🔒 [Post-Edit Verification](docs/POST_EDIT_VERIFICATION.md) - Git pre-commit hook verification
 - 🚀 [Getting Started Guide](docs/GETTING_STARTED.md) - Quick start tutorial
+- 📦 [Installation Guide](docs/INSTALLATION.md) - Installation and setup
 - 💡 [API Reference](docs/API.md) - Complete API documentation
 
 ---
@@ -360,6 +444,54 @@ pytest --cov=watchdoc --cov-report=html
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+---
+
+## 🔒 Post-Edit Verification
+
+Even if AI ignores the protocol, WatchDoc provides a **safety net** through Git pre-commit hooks.
+
+### Setup (One-time)
+
+```bash
+# Copy pre-commit hook to your project
+cp /path/to/WatchDoc/scripts/hooks/pre-commit .git/hooks/
+chmod +x .git/hooks/pre-commit
+
+# Now every commit will be verified!
+```
+
+### What It Checks
+
+| Check | Description |
+|-------|-------------|
+| **FREEZE Modules** | Blocks unauthorized modifications |
+| **GUARD Assertions** | Validates signature locks, complexity limits |
+| **AUDIT Notes** | Warns if modification lacks audit note |
+
+### Manual Verification
+
+```bash
+# Verify entire project
+watchdoc verify /path/to/project
+
+# Verify specific file
+watchdoc verify /path/to/project --file src/payment.py
+```
+
+### Example Output
+
+```
+🔍 Running WatchDoc pre-commit verification...
+
+❌ WDP VIOLATIONS DETECTED:
+   🔒 FREEZE module 'payment_processPayment' was modified without authorization
+
+🚫 Commit blocked due to WDP violations.
+   Grant temporary authorization or revert changes.
+```
+
+See [Post-Edit Verification Docs](docs/POST_EDIT_VERIFICATION.md) for details.
 
 ---
 
