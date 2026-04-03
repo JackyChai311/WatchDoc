@@ -44,7 +44,7 @@ WatchDoc provides **strong procedural enforcement** through structured markers, 
 
 Protection works best when the LLM is instructed to strictly follow the protocol (via the provided skill/system prompt). In long sessions or aggressive refactors, models may still attempt to bypass markers — human review and post-edit verification remain essential parts of the workflow.
 
-**🔒 Post-Edit Verification (New in v1.1)**  
+**🔒 Post-Edit Verification (New in v1.2)**  
 Even if AI ignores the protocol, WatchDoc now provides a **safety net** through Git pre-commit hooks:
 
 - **Automatic verification** on every `git commit`
@@ -83,7 +83,7 @@ See [Post-Edit Verification](#-post-edit-verification) section below.
 - **Time-bound access** - Configurable duration (default 24 hours)
 - **Usage limits** - Prevent abuse of emergency privileges
 
-### 🔒 Post-Edit Verification (New in v1.1)
+### 🔒 Post-Edit Verification (New in v1.2)
 - **Git pre-commit hooks** - Automatic verification on every commit
 - **AST-based detection** - Detect unauthorized code modifications
 - **Three-tier enforcement** - FREEZE (block), GUARD (validate), AUDIT (warn)
@@ -258,7 +258,7 @@ watchdoc/
 │   ├── authorization.py # Authorization system
 │   ├── temporary_grant.py # Temporary authorization (30-min)
 │   └── override.py     # Emergency override
-├── hooks/        # Post-Edit Verification (NEW in v1.1)
+├── hooks/        # Post-Edit Verification (NEW in v1.2)
 │   └── pre_commit.py   # Git pre-commit hook verifier
 ├── index/        # Impact Analysis
 │   └── analyzer.py     # A/B/C classification
