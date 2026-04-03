@@ -5,6 +5,7 @@ WATCHDOC CLI - Command Line Entry Point
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from ..wdp.parser import WDPParser, GuardLevel
 from ..wdp.auto_marker import AutoMarker
@@ -12,6 +13,13 @@ from ..wgw.manifest import ManifestManager
 from ..index.analyzer import ImpactAnalyzer
 from ..wgw.override import OverrideManager, OverrideScope, ApprovalLevel
 from ..wgw.temporary_grant import TemporaryGrantManager, cmd_grant, cmd_revoke, cmd_session_status
+
+# Import pre-commit verifier
+try:
+    from ..hooks.pre_commit import PreCommitVerifier
+    HAS_PRE_COMMIT = True
+except ImportError:
+    HAS_PRE_COMMIT = False
 
 def cmd_init(args):
     """Initialize project with auto-scanning"""
@@ -106,6 +114,20 @@ def cmd_reindex(args):
     count = manager.reindex()
     print(f"Reindex complete: {count} modules")
 
+def cmd_verify(args):
+    """Verify project for WDP compliance"""
+    if not HAS_PRE_COMMIT:
+        print("❌ Pre-commit verification not available")
+        print("   Make sure watchdoc.hooks.pre_commit is installed")
+        sys.exit(1)
+    
+    verifier = PreCommitVerifier(args.project)
+    passed = verifier.verify_all()
+    verifier.print_report()
+    
+    if not passed:
+        sys.exit(1)
+
 def main():
     parser = argparse.ArgumentParser(description="WATCHDOC CLI")
     subparsers = parser.add_subparsers(dest='command')
@@ -164,6 +186,13 @@ def main():
     session_parser = subparsers.add_parser('session', help='View session status')
     session_parser.add_argument('project', help='Project path')
     session_parser.set_defaults(func=cmd_session_status)
+    
+    # Verify command
+    verify_parser = subparsers.add_parser('verify', help='Verify WDP compliance')
+    verify_parser.add_argument('project', help='Project path')
+    verify_parser.add_argument('--file', '-f', help='Verify specific file only')
+    verify_parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
+    verify_parser.set_defaults(func=cmd_verify)
     
     args = parser.parse_args()
     if args.command:
